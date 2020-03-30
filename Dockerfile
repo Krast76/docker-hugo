@@ -1,4 +1,8 @@
-FROM centos:7
-RUN yum upgrade -y
-COPY daftaupe-hugo-epel-7.repo /etc/yum.repos.d/hugo.repo
-RUN yum install -y hugo 
+FROM archlinux:latest
+RUN useradd -m hugo
+RUN pacman-key --refresh-keys && \
+    pacman -Syu --noconfirm && \
+    pacman -Syu hugo --noconfirm
+USER hugo
+WORKDIR /home/hugo
+ENTRYPOINT ["hugo"]
